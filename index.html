@@ -100,16 +100,20 @@
         onclick="Add()"
       />
 
-      <hr />
+      <div
+        id="showtime"
+        style="display: none; transition: visibility 0s, opacity 0.5s linear"
+      >
+        <hr />
 
-      <table id="data" class="table table-striped table-bordered table-sm">
-        <tr>
-          <th>Start</th>
-          <th>End</th>
-        </tr>
-        <tr></tr>
-      </table>
-
+        <table id="data" class="table table-striped table-bordered table-sm">
+          <tr>
+            <th>Start</th>
+            <th>End</th>
+          </tr>
+          <tr></tr>
+        </table>
+      </div>
       <hr />
       <div style="overflow-x: auto">
         <!-- <table id="data" class="table table-bordered"> -->
@@ -218,6 +222,10 @@
     let totalHour0308 = 0;
     document.getElementById("offTime8").innerHTML = "";
     function Add() {
+      //Show time
+      var showtime = document.getElementById("showtime");
+      showtime.style.display = "block";
+      //Show time
       let start = document.getElementById("start").value;
       let end = document.getElementById("end").value;
 
@@ -239,7 +247,7 @@
         //END MOVE
         let duration = moment.duration(moment(end).diff(moment(start)));
         let asMinutes = duration.asMinutes();
-        console.log("asMinutes", asMinutes);
+
         let countStart = moment(start)
           .add(0, "minutes")
           .format("YYYY-MM-DD HH:mm");
@@ -274,21 +282,14 @@
             .format("YYYY-MM-DD HH:mm");
           i--;
         }
-        console.log("totalMinute1620", totalMinute1620);
-        console.log("totalMinute2024", totalMinute2024);
-        console.log("totalMinute2403", totalMinute2403);
-        console.log("totalMinute0308", totalMinute0308);
+
         totalHour1620 += Number((totalMinute1620 / 60).toFixed(4));
         totalHour2024 += Number((totalMinute2024 / 60).toFixed(4));
         totalHour2403 += Number((totalMinute2403 / 60).toFixed(4));
         totalHour0308 += Number((totalMinute0308 / 60).toFixed(4));
         totalHour =
           totalHour1620 + totalHour2024 + totalHour2403 + totalHour0308;
-        console.log("totalHour1620", totalHour1620);
-        console.log("totalHour2024", totalHour2024);
-        console.log("totalHour2403", totalHour2403);
-        console.log("totalHour0308", totalHour0308);
-        console.log("totalHour", totalHour);
+
         document.getElementById("totalHour1620").innerHTML = "";
         document.getElementById("totalHour2024").innerHTML = "";
         document.getElementById("totalHour2403").innerHTML = "";
