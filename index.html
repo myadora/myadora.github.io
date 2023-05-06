@@ -126,7 +126,7 @@
         <button
           type="button"
           class="btn btn-danger btn-sm btn-block"
-          onclick="location.reload()"
+          onclick="re()"
         >
           เริ่มใหม่หมด <i class="pl-1 fa fa-refresh" aria-hidden="true"></i>
         </button>
@@ -336,6 +336,10 @@
     src="https://MomentJS.com/downloads/moment.js"
   ></script>
   <script>
+    function re() {
+      document.getElementById("mainpage").style.display = "none";
+      location.reload();
+    }
     document.getElementById("loader").style.display = "block";
     document.getElementById("mainpage").style.display = "none";
     setTimeout(() => {
