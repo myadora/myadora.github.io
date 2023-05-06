@@ -104,10 +104,16 @@
   </head>
 
   <body>
+    <nav class="navbar navbar-light bg-light">
+      <a class="navbar-brand" href="#"
+        ><i class="pr-1 fa fa-clock-o" aria-hidden="true"></i> Time App
+      </a>
+    </nav>
     <div style="display: none" id="loader" class="loader"></div>
     <div id="mainpage">
       <div class="container form-row">
-        <div class="form-group col-6 mt-4">
+        <div id="lap" class="form-group col-12 mt-4"></div>
+        <div class="form-group col-6">
           <label for="start">Start :</label>
           <input
             type="time"
@@ -116,7 +122,7 @@
             name="start"
           />
         </div>
-        <div class="form-group col-6 mt-4">
+        <div class="form-group col-6">
           <label for="start">End :</label>
           <input type="time" class="form-control btn-sm" id="end" name="end" />
         </div>
@@ -147,7 +153,8 @@
             class="btn btn-success btn-sm btn-block"
             onclick="Add()"
           >
-            เพิ่ม <i class="pl-1 fa fa-plus" aria-hidden="true"></i>
+            เพิ่มรอบเวลา
+            <i class="pl-1 fa fa-plus" aria-hidden="true"></i>
           </button>
         </div>
       </div>
@@ -161,8 +168,9 @@
 
           <table id="data" class="table table-striped table-bordered table-sm">
             <tr>
-              <th>Start</th>
-              <th>End</th>
+              <th style="text-align: center; vertical-align: middle">รอบที่</th>
+              <th style="text-align: center; vertical-align: middle">Start</th>
+              <th style="text-align: center; vertical-align: middle">End</th>
             </tr>
           </table>
         </div>
@@ -181,7 +189,7 @@
             >
               <tr>
                 <th style="text-align: center; vertical-align: middle">
-                  จำนวนชั่วโมงงาน
+                  ชั่วโมงงาน
                 </th>
                 <th
                   colspan="3"
@@ -211,7 +219,7 @@
               </tr>
               <tr>
                 <th style="text-align: center; vertical-align: middle">
-                  16-20
+                  16.00 - 20.00
                 </th>
                 <th
                   style="
@@ -235,7 +243,7 @@
               </tr>
               <tr>
                 <th style="text-align: center; vertical-align: middle">
-                  20-24
+                  20.00 - 00.00
                 </th>
                 <th
                   style="
@@ -259,7 +267,7 @@
               </tr>
               <tr>
                 <th style="text-align: center; vertical-align: middle">
-                  00-03
+                  00.00 - 03.00
                 </th>
                 <th
                   style="
@@ -283,7 +291,7 @@
               </tr>
               <tr>
                 <th style="text-align: center; vertical-align: middle">
-                  03-08
+                  03.00 - 08.00
                 </th>
                 <th
                   style="
@@ -307,7 +315,7 @@
               </tr>
               <tr>
                 <th style="text-align: center; vertical-align: middle">
-                  รวมชั่วโมงงาน
+                  รวมชั่วโมงทำงาน
                 </th>
                 <th
                   style="
@@ -376,6 +384,8 @@
     let totalHour2403 = 0;
     let totalHour0308 = 0;
 
+    let lap = 1;
+    document.getElementById("lap").innerHTML = `รอบที่ ${lap}`;
     function Add() {
       document.getElementById("loader").style.display = "block";
       document.getElementById("mainpage").style.display = "none";
@@ -406,8 +416,10 @@
         let row = table.insertRow(-1);
         let cell1 = row.insertCell(0);
         let cell2 = row.insertCell(1);
-        cell1.innerHTML = startTime;
-        cell2.innerHTML = endTime;
+        let cell3 = row.insertCell(2);
+        cell1.innerHTML = lap;
+        cell2.innerHTML = startTime;
+        cell3.innerHTML = endTime;
         //END MOVE
         let duration = moment.duration(
           moment(end, [moment.ISO_8601, "HH:mm"]).diff(
@@ -509,7 +521,9 @@
           getTime(calTotalHour);
 
         if (calTotalHour - 11 >= 1) {
-          document.getElementById("textResult").innerHTML = "OFF";
+          document.getElementById(
+            "textResult"
+          ).innerHTML = `OFF <i class="pl-1 fa fa-smile-o" aria-hidden="true"></i>`;
           document
             .getElementById("textResult")
             .setAttribute("style", "color:green");
@@ -518,9 +532,13 @@
           let workHourCon = Math.abs(11 - calTotalHour);
 
           const getMinute = 60 * (workHourCon - Math.floor(workHourCon));
-          document.getElementById("textResult").innerHTML = `ชดเชย ${Math.floor(
+          document.getElementById(
+            "textResult"
+          ).innerHTML = `ทำงานเพิ่ม ${Math.floor(
             workHourCon
-          )}.${Math.round(getMinute)} ชั่วโมง`;
+          )} ชั่วโมง ${Math.round(
+            getMinute
+          )} นาที <i class="pl-1 fa fa-frown-o" aria-hidden="true"></i>`;
           let checkTimeOff = moment("08:00", "HH:mm")
             .add(workHourCon, "hour")
             .format("HH:mm");
@@ -534,6 +552,8 @@
       }
       document.getElementById("start").value = "16:00";
       document.getElementById("end").value = "00:00";
+      lap++;
+      document.getElementById("lap").innerHTML = `รอบที่ ${lap}`;
     }
     function getTime(num) {
       let workHourCon = Math.abs(num);
