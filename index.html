@@ -367,6 +367,7 @@
     }
     function re() {
       document.getElementById("mainpage").style.display = "none";
+      localStorage.clear();
       location.reload();
     }
     document.getElementById("loader").style.display = "block";
@@ -386,7 +387,20 @@
 
     let lap = 1;
     document.getElementById("lap").innerHTML = `รอบที่ ${lap}`;
-    function Add() {
+
+    let timeArray = [];
+    //START LOCAL
+    $(document).ready(function () {
+      let getTimeStore = JSON.parse(localStorage.getItem("timestore"));
+      if (getTimeStore && getTimeStore.length > 0) {
+        getTimeStore.forEach((element) => {
+          Add(element["start"], element["end"]);
+        });
+      }
+    });
+    //END LOCAL
+
+    function Add(startStore = null, endStore = null) {
       document.getElementById("loader").style.display = "block";
       document.getElementById("mainpage").style.display = "none";
       setTimeout(() => {
@@ -400,8 +414,8 @@
       var tableTime = document.getElementById("tableTime");
       tableTime.style.display = "block";
       //Show time
-      let start = document.getElementById("start").value;
-      let end = document.getElementById("end").value;
+      let start = startStore || document.getElementById("start").value;
+      let end = endStore || document.getElementById("end").value;
 
       let startTime = moment(start, [moment.ISO_8601, "HH:mm"]).format("HH:mm");
       let endTime = moment(end, [moment.ISO_8601, "HH:mm"]).format("HH:mm");
@@ -554,6 +568,11 @@
       document.getElementById("end").value = "00:00";
       lap++;
       document.getElementById("lap").innerHTML = `รอบที่ ${lap}`;
+
+      //START PUSH
+      timeArray.push({ start, end });
+      localStorage.setItem("timestore", JSON.stringify(timeArray));
+      //END PUSH
     }
     function getTime(num) {
       let workHourCon = Math.abs(num);
