@@ -68,41 +68,39 @@
   </head>
 
   <body>
-    <div class="container">
-      <div class="form-group mt-4">
+    <div class="container form-row">
+      <div class="form-group col-6 mt-4">
         <label for="start">Start :</label>
         <input
-          type="datetime-local"
+          type="time"
           class="form-control btn-sm"
           id="start"
           name="start"
         />
       </div>
-      <div class="form-group">
+      <div class="form-group col-6 mt-4">
         <label for="start">End :</label>
-        <input
-          type="datetime-local"
-          class="form-control btn-sm"
-          id="end"
-          name="end"
-        />
+        <input type="time" class="form-control btn-sm" id="end" name="end" />
       </div>
+    </div>
+
+    <div class="container">
       <input
         type="button"
         value="เริ่มใหม่หมด"
-        class="btn btn-danger btn-sm"
+        class="btn btn-danger btn-sm btn-block"
         onclick="location.reload()"
       />
       <input
         type="button"
         value="เพิ่มเวลา"
-        class="btn btn-success btn-sm"
+        class="btn btn-success btn-sm btn-block"
         onclick="Add()"
       />
 
       <div
         id="showtime"
-        style="display: none; transition: visibility 0s, opacity 0.5s linear"
+        style="display: block; transition: visibility 0s, opacity 0.5s linear"
       >
         <hr />
 
@@ -111,7 +109,6 @@
             <th>Start</th>
             <th>End</th>
           </tr>
-          <tr></tr>
         </table>
       </div>
       <hr />
@@ -125,7 +122,10 @@
         >
           <tr>
             <th>จำนวนชั่วโมงงาน</th>
-            <th colspan="3" style="text-align: center; vertical-align: middle">
+            <th
+              colspan="3"
+              style="color: green; text-align: center; vertical-align: middle"
+            >
               11 ชั่วโมง
             </th>
           </tr>
@@ -142,55 +142,75 @@
           </tr>
           <tr>
             <th style="text-align: center; vertical-align: middle">16-20</th>
-            <th style="text-align: center; vertical-align: middle">
+            <th
+              style="color: green; text-align: center; vertical-align: middle"
+            >
               <div id="totalHour1620"></div>
             </th>
             <th style="text-align: center; vertical-align: middle">1</th>
-            <th style="text-align: center; vertical-align: middle">
+            <th
+              style="color: green; text-align: center; vertical-align: middle"
+            >
               <div id="calTotalHour1620"></div>
             </th>
           </tr>
           <tr>
             <th style="text-align: center; vertical-align: middle">20-24</th>
-            <th style="text-align: center; vertical-align: middle">
+            <th
+              style="color: green; text-align: center; vertical-align: middle"
+            >
               <div id="totalHour2024"></div>
             </th>
             <th style="text-align: center; vertical-align: middle">1.5</th>
-            <th style="text-align: center; vertical-align: middle">
+            <th
+              style="color: green; text-align: center; vertical-align: middle"
+            >
               <div id="calTotalHour2024"></div>
             </th>
           </tr>
           <tr>
             <th style="text-align: center; vertical-align: middle">00-03</th>
-            <th style="text-align: center; vertical-align: middle">
-              <div id="totalHour0308"></div>
+            <th
+              style="color: green; text-align: center; vertical-align: middle"
+            >
+              <div id="totalHour2403"></div>
             </th>
             <th style="text-align: center; vertical-align: middle">2.5</th>
-            <th style="text-align: center; vertical-align: middle">
-              <div id="calTotalHour0308"></div>
+            <th
+              style="color: green; text-align: center; vertical-align: middle"
+            >
+              <div id="calTotalHour2403"></div>
             </th>
           </tr>
           <tr>
             <th style="text-align: center; vertical-align: middle">03-08</th>
-            <th style="text-align: center; vertical-align: middle">
-              <div id="totalHour2403"></div>
+            <th
+              style="color: green; text-align: center; vertical-align: middle"
+            >
+              <div id="totalHour0308"></div>
             </th>
             <th style="text-align: center; vertical-align: middle">2.5</th>
-            <th style="text-align: center; vertical-align: middle">
-              <div id="calTotalHour2403"></div>
+            <th
+              style="color: green; text-align: center; vertical-align: middle"
+            >
+              <div id="calTotalHour0308"></div>
             </th>
           </tr>
           <tr>
             <th style="text-align: center; vertical-align: middle">
               รวมชั่วโมงงาน
             </th>
-            <th style="text-align: center; vertical-align: middle">
+            <th
+              style="color: green; text-align: center; vertical-align: middle"
+            >
               <div id="totalHour"></div>
             </th>
             <th style="text-align: center; vertical-align: middle">
               รวมชั่วโมง(ใหม่)
             </th>
-            <th style="text-align: center; vertical-align: middle">
+            <th
+              style="color: green; text-align: center; vertical-align: middle"
+            >
               <div id="calTotalHour"></div>
             </th>
           </tr>
@@ -198,12 +218,6 @@
             <th style="text-align: center; vertical-align: middle">แปลผล</th>
             <th colspan="3" style="text-align: center; vertical-align: middle">
               <div id="textResult"></div>
-            </th>
-          </tr>
-          <tr>
-            <th style="text-align: center; vertical-align: middle">เวลา Off</th>
-            <th colspan="3" style="text-align: center; vertical-align: middle">
-              <div id="offTime8"></div>
             </th>
           </tr>
         </table>
@@ -220,7 +234,7 @@
     let totalHour2024 = 0;
     let totalHour2403 = 0;
     let totalHour0308 = 0;
-    document.getElementById("offTime8").innerHTML = "";
+
     function Add() {
       //Show time
       var showtime = document.getElementById("showtime");
@@ -229,8 +243,8 @@
       let start = document.getElementById("start").value;
       let end = document.getElementById("end").value;
 
-      let startTime = moment(start).format("YYYY-MM-DD HH:mm");
-      let endTime = moment(end).format("YYYY-MM-DD HH:mm");
+      let startTime = moment(start, [moment.ISO_8601, "HH:mm"]).format("HH:mm");
+      let endTime = moment(end, [moment.ISO_8601, "HH:mm"]).format("HH:mm");
 
       let totalMinute1620 = 0;
       let totalMinute2024 = 0;
@@ -245,41 +259,59 @@
         cell1.innerHTML = startTime;
         cell2.innerHTML = endTime;
         //END MOVE
-        let duration = moment.duration(moment(end).diff(moment(start)));
+        let duration = moment.duration(
+          moment(end, [moment.ISO_8601, "HH:mm"]).diff(
+            moment(start, [moment.ISO_8601, "HH:mm"])
+          )
+        );
         let asMinutes = duration.asMinutes();
 
-        let countStart = moment(start)
+        let countStart = moment(start, [moment.ISO_8601, "HH:mm"])
           .add(0, "minutes")
-          .format("YYYY-MM-DD HH:mm");
+          .format("HH:mm");
         let i = Math.abs(asMinutes);
         if (i > 100000) {
           i = 0;
         }
+
+        i = 2000;
         while (i != 0) {
           if (
-            countStart >= moment(countStart).format("YYYY-MM-DD 16:00") &&
-            countStart < moment(countStart).format("YYYY-MM-DD 20:00")
+            countStart >=
+              moment(countStart, [moment.ISO_8601, "HH:mm"]).format("16:00") &&
+            countStart <
+              moment(countStart, [moment.ISO_8601, "HH:mm"]).format("20:00")
           ) {
             totalMinute1620 += 1;
           } else if (
-            countStart >= moment(countStart).format("YYYY-MM-DD 20:00") &&
-            countStart < moment(countStart).format("YYYY-MM-DD 24:00")
+            countStart >=
+              moment(countStart, [moment.ISO_8601, "HH:mm"]).format("20:00") &&
+            countStart <=
+              moment(countStart, [moment.ISO_8601, "HH:mm"]).format("23:59")
           ) {
             totalMinute2024 += 1;
           } else if (
-            countStart >= moment(countStart).format("YYYY-MM-DD 00:00") &&
-            countStart < moment(countStart).format("YYYY-MM-DD 03:00")
+            countStart >=
+              moment(countStart, [moment.ISO_8601, "HH:mm"]).format("00:00") &&
+            countStart <
+              moment(countStart, [moment.ISO_8601, "HH:mm"]).format("03:00")
           ) {
             totalMinute2403 += 1;
           } else if (
-            countStart >= moment(countStart).format("YYYY-MM-DD 03:00") &&
-            countStart < moment(countStart).format("YYYY-MM-DD 08:00")
+            countStart >=
+              moment(countStart, [moment.ISO_8601, "HH:mm"]).format("03:00") &&
+            countStart <
+              moment(countStart, [moment.ISO_8601, "HH:mm"]).format("08:00")
           ) {
             totalMinute0308 += 1;
           }
-          countStart = moment(countStart)
+
+          countStart = moment(countStart, [moment.ISO_8601, "HH:mm"])
             .add(1, "minutes")
-            .format("YYYY-MM-DD HH:mm");
+            .format("HH:mm");
+          if (countStart == endTime) {
+            break;
+          }
           i--;
         }
 
@@ -287,6 +319,7 @@
         totalHour2024 += Number((totalMinute2024 / 60).toFixed(4));
         totalHour2403 += Number((totalMinute2403 / 60).toFixed(4));
         totalHour0308 += Number((totalMinute0308 / 60).toFixed(4));
+
         totalHour =
           totalHour1620 + totalHour2024 + totalHour2403 + totalHour0308;
 
@@ -295,53 +328,53 @@
         document.getElementById("totalHour2403").innerHTML = "";
         document.getElementById("totalHour0308").innerHTML = "";
         document.getElementById("totalHour").innerHTML = "";
-        document.getElementById("totalHour1620").innerHTML = totalHour1620;
-        document.getElementById("totalHour2024").innerHTML = totalHour2024;
-        document.getElementById("totalHour2403").innerHTML = totalHour2403;
-        document.getElementById("totalHour0308").innerHTML = totalHour0308;
-        document.getElementById("totalHour").innerHTML = totalHour;
+        document.getElementById("totalHour1620").innerHTML =
+          getTime(totalHour1620);
+        document.getElementById("totalHour2024").innerHTML =
+          getTime(totalHour2024);
+        document.getElementById("totalHour2403").innerHTML =
+          getTime(totalHour2403);
+        document.getElementById("totalHour0308").innerHTML =
+          getTime(totalHour0308);
+        document.getElementById("totalHour").innerHTML = getTime(totalHour);
 
-        document.getElementById("calTotalHour1620").innerHTML = (
+        document.getElementById("calTotalHour1620").innerHTML = getTime(
           totalHour1620 * 1
-        ).toFixed(4);
-        document.getElementById("calTotalHour2024").innerHTML = (
+        );
+        document.getElementById("calTotalHour2024").innerHTML = getTime(
           totalHour2024 * 1.5
-        ).toFixed(4);
-        document.getElementById("calTotalHour2403").innerHTML = (
+        );
+        document.getElementById("calTotalHour2403").innerHTML = getTime(
           totalHour2403 * 2.5
-        ).toFixed(4);
-        document.getElementById("calTotalHour0308").innerHTML = (
+        );
+        document.getElementById("calTotalHour0308").innerHTML = getTime(
           totalHour0308 * 2.5
-        ).toFixed(4);
+        );
         calTotalHour =
           totalHour1620 * 1 +
           totalHour2024 * 1.5 +
           totalHour2403 * 2.5 +
           totalHour0308 * 2.5;
         document.getElementById("calTotalHour").innerHTML =
-          calTotalHour.toFixed(4);
+          getTime(calTotalHour);
 
         if (calTotalHour - 11 >= 1) {
           document.getElementById("textResult").innerHTML = "OFF";
           document
             .getElementById("textResult")
             .setAttribute("style", "color:green");
-          document.getElementById("offTime8").innerHTML = "OFF";
-          document
-            .getElementById("offTime8")
-            .setAttribute("style", "color:green");
         } else {
-          let workHourCon = (11 - calTotalHour).toFixed(2);
-          document.getElementById(
-            "textResult"
-          ).innerHTML = `ชดเชย ${workHourCon} ชั่วโมง`;
+          //let workHourCon = 11 - calTotalHour;
+          let workHourCon = Math.abs(11 - calTotalHour);
+
+          const getMinute = 60 * (workHourCon - Math.floor(workHourCon));
+          document.getElementById("textResult").innerHTML = `ชดเชย ${Math.floor(
+            workHourCon
+          )}.${Math.round(getMinute)} ชั่วโมง`;
           let checkTimeOff = moment("08:00", "HH:mm")
             .add(workHourCon, "hour")
             .format("HH:mm");
-          document.getElementById("offTime8").innerHTML = checkTimeOff;
-          if (checkTimeOff >= "16:00") {
-            document.getElementById("offTime8").innerHTML = "16:00";
-          }
+
           document
             .getElementById("textResult")
             .setAttribute("style", "color:red");
@@ -351,6 +384,11 @@
       }
       document.getElementById("start").value = "";
       document.getElementById("end").value = "";
+    }
+    function getTime(num) {
+      let workHourCon = Math.abs(num);
+      const getMinute = 60 * (workHourCon - Math.floor(workHourCon));
+      return `${Math.floor(workHourCon)}.${Math.round(getMinute)}`;
     }
   </script>
 </html>
