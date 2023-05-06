@@ -122,22 +122,28 @@
         </div>
       </div>
 
-      <div class="container">
-        <button
-          type="button"
-          class="btn btn-danger btn-sm btn-block"
-          onclick="re()"
-        >
-          เริ่มใหม่หมด <i class="pl-1 fa fa-refresh" aria-hidden="true"></i>
-        </button>
-        <button
-          type="button"
-          class="btn btn-success btn-sm btn-block"
-          onclick="Add()"
-        >
-          เพิ่ม <i class="pl-1 fa fa-plus" aria-hidden="true"></i>
-        </button>
+      <div class="container form-row">
+        <div class="form-group col-6">
+          <button
+            type="button"
+            class="btn btn-danger btn-sm btn-block"
+            onclick="re()"
+          >
+            เริ่มใหม่หมด <i class="pl-1 fa fa-refresh" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="form-group col-6">
+          <button
+            type="button"
+            class="btn btn-success btn-sm btn-block"
+            onclick="Add()"
+          >
+            เพิ่ม <i class="pl-1 fa fa-plus" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
 
+      <div class="container">
         <div
           id="showtime"
           style="display: none; transition: visibility 0s, opacity 0.5s linear"
@@ -345,7 +351,7 @@
     setTimeout(() => {
       document.getElementById("loader").style.display = "none";
       document.getElementById("mainpage").style.display = "block";
-    }, 1000);
+    }, 900);
     let timePickStart = (document.getElementById("start").value = "16:00");
     let timePickEnd = (document.getElementById("end").value = "00:00");
 
@@ -361,7 +367,7 @@
       setTimeout(() => {
         document.getElementById("loader").style.display = "none";
         document.getElementById("mainpage").style.display = "block";
-      }, 1500);
+      }, 900);
 
       //Show time
       var showtime = document.getElementById("showtime");
