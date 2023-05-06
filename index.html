@@ -11,8 +11,44 @@
       href="https://fonts.googleapis.com/css2?family=Kanit&display=swap"
       rel="stylesheet"
     />
-
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <style>
+      .loader {
+        position: absolute;
+        left: 35%;
+        top: 20%;
+        border: 16px solid #f3f3f3;
+        border-radius: 50%;
+        border-top: 16px solid blue;
+        border-right: 16px solid orange;
+        border-bottom: 16px solid blue;
+        border-left: 16px solid orange;
+        width: 120px;
+        height: 120px;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+      }
+
+      @-webkit-keyframes spin {
+        0% {
+          -webkit-transform: rotate(0deg);
+        }
+        100% {
+          -webkit-transform: rotate(360deg);
+        }
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
       body {
         font-family: "Kanit", sans-serif;
       }
@@ -68,159 +104,230 @@
   </head>
 
   <body>
-    <div class="container form-row">
-      <div class="form-group col-6 mt-4">
-        <label for="start">Start :</label>
-        <input
-          type="time"
-          class="form-control btn-sm"
-          id="start"
-          name="start"
-        />
+    <div style="display: none" id="loader" class="loader"></div>
+    <div id="mainpage">
+      <div class="container form-row">
+        <div class="form-group col-6 mt-4">
+          <label for="start">Start :</label>
+          <input
+            type="time"
+            class="form-control btn-sm"
+            id="start"
+            name="start"
+          />
+        </div>
+        <div class="form-group col-6 mt-4">
+          <label for="start">End :</label>
+          <input type="time" class="form-control btn-sm" id="end" name="end" />
+        </div>
       </div>
-      <div class="form-group col-6 mt-4">
-        <label for="start">End :</label>
-        <input type="time" class="form-control btn-sm" id="end" name="end" />
-      </div>
-    </div>
 
-    <div class="container">
-      <input
-        type="button"
-        value="เริ่มใหม่หมด"
-        class="btn btn-danger btn-sm btn-block"
-        onclick="location.reload()"
-      />
-      <input
-        type="button"
-        value="เพิ่มเวลา"
-        class="btn btn-success btn-sm btn-block"
-        onclick="Add()"
-      />
-
-      <div
-        id="showtime"
-        style="display: block; transition: visibility 0s, opacity 0.5s linear"
-      >
-        <hr />
-
-        <table id="data" class="table table-striped table-bordered table-sm">
-          <tr>
-            <th>Start</th>
-            <th>End</th>
-          </tr>
-        </table>
-      </div>
-      <hr />
-      <div style="overflow-x: auto">
-        <!-- <table id="data" class="table table-bordered"> -->
-        <table
-          id="hz"
-          class="table table-striped table-bordered table-sm"
-          cellspacing="0"
-          width="100%"
+      <div class="container">
+        <button
+          type="button"
+          class="btn btn-danger btn-sm btn-block"
+          onclick="location.reload()"
         >
-          <tr>
-            <th>จำนวนชั่วโมงงาน</th>
-            <th
-              colspan="3"
-              style="color: green; text-align: center; vertical-align: middle"
-            >
-              11 ชั่วโมง
-            </th>
-          </tr>
+          เริ่มใหม่หมด <i class="pl-1 fa fa-refresh" aria-hidden="true"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-success btn-sm btn-block"
+          onclick="Add()"
+        >
+          เพิ่ม <i class="pl-1 fa fa-plus" aria-hidden="true"></i>
+        </button>
 
-          <tr>
-            <th style="text-align: center; vertical-align: middle">ช่วงเวลา</th>
-            <th style="text-align: center; vertical-align: middle">
-              จำนวน(ชั่วโมง)
-            </th>
-            <th style="text-align: center; vertical-align: middle">เรทคำนวณ</th>
-            <th style="text-align: center; vertical-align: middle">
-              ผลลัพธ์(ชั่วโมง)
-            </th>
-          </tr>
-          <tr>
-            <th style="text-align: center; vertical-align: middle">16-20</th>
-            <th
-              style="color: green; text-align: center; vertical-align: middle"
+        <div
+          id="showtime"
+          style="display: none; transition: visibility 0s, opacity 0.5s linear"
+        >
+          <hr />
+
+          <table id="data" class="table table-striped table-bordered table-sm">
+            <tr>
+              <th>Start</th>
+              <th>End</th>
+            </tr>
+          </table>
+        </div>
+        <div
+          id="tableTime"
+          style="display: none; transition: visibility 0s, opacity 0.5s linear"
+        >
+          <hr />
+          <div style="overflow-x: auto">
+            <!-- <table id="data" class="table table-bordered"> -->
+            <table
+              id="hz"
+              class="table table-striped table-bordered table-sm"
+              cellspacing="0"
+              width="100%"
             >
-              <div id="totalHour1620"></div>
-            </th>
-            <th style="text-align: center; vertical-align: middle">1</th>
-            <th
-              style="color: green; text-align: center; vertical-align: middle"
-            >
-              <div id="calTotalHour1620"></div>
-            </th>
-          </tr>
-          <tr>
-            <th style="text-align: center; vertical-align: middle">20-24</th>
-            <th
-              style="color: green; text-align: center; vertical-align: middle"
-            >
-              <div id="totalHour2024"></div>
-            </th>
-            <th style="text-align: center; vertical-align: middle">1.5</th>
-            <th
-              style="color: green; text-align: center; vertical-align: middle"
-            >
-              <div id="calTotalHour2024"></div>
-            </th>
-          </tr>
-          <tr>
-            <th style="text-align: center; vertical-align: middle">00-03</th>
-            <th
-              style="color: green; text-align: center; vertical-align: middle"
-            >
-              <div id="totalHour2403"></div>
-            </th>
-            <th style="text-align: center; vertical-align: middle">2.5</th>
-            <th
-              style="color: green; text-align: center; vertical-align: middle"
-            >
-              <div id="calTotalHour2403"></div>
-            </th>
-          </tr>
-          <tr>
-            <th style="text-align: center; vertical-align: middle">03-08</th>
-            <th
-              style="color: green; text-align: center; vertical-align: middle"
-            >
-              <div id="totalHour0308"></div>
-            </th>
-            <th style="text-align: center; vertical-align: middle">2.5</th>
-            <th
-              style="color: green; text-align: center; vertical-align: middle"
-            >
-              <div id="calTotalHour0308"></div>
-            </th>
-          </tr>
-          <tr>
-            <th style="text-align: center; vertical-align: middle">
-              รวมชั่วโมงงาน
-            </th>
-            <th
-              style="color: green; text-align: center; vertical-align: middle"
-            >
-              <div id="totalHour"></div>
-            </th>
-            <th style="text-align: center; vertical-align: middle">
-              รวมชั่วโมง(ใหม่)
-            </th>
-            <th
-              style="color: green; text-align: center; vertical-align: middle"
-            >
-              <div id="calTotalHour"></div>
-            </th>
-          </tr>
-          <tr>
-            <th style="text-align: center; vertical-align: middle">แปลผล</th>
-            <th colspan="3" style="text-align: center; vertical-align: middle">
-              <div id="textResult"></div>
-            </th>
-          </tr>
-        </table>
+              <tr>
+                <th>จำนวนชั่วโมงงาน</th>
+                <th
+                  colspan="3"
+                  style="
+                    color: green;
+                    text-align: center;
+                    vertical-align: middle;
+                  "
+                >
+                  11 ชั่วโมง
+                </th>
+              </tr>
+
+              <tr>
+                <th style="text-align: center; vertical-align: middle">
+                  ช่วงเวลา
+                </th>
+                <th style="text-align: center; vertical-align: middle">
+                  จำนวน(ชั่วโมง)
+                </th>
+                <th style="text-align: center; vertical-align: middle">
+                  เรทคำนวณ
+                </th>
+                <th style="text-align: center; vertical-align: middle">
+                  ผลลัพธ์(ชั่วโมง)
+                </th>
+              </tr>
+              <tr>
+                <th style="text-align: center; vertical-align: middle">
+                  16-20
+                </th>
+                <th
+                  style="
+                    color: green;
+                    text-align: center;
+                    vertical-align: middle;
+                  "
+                >
+                  <div id="totalHour1620"></div>
+                </th>
+                <th style="text-align: center; vertical-align: middle">1</th>
+                <th
+                  style="
+                    color: green;
+                    text-align: center;
+                    vertical-align: middle;
+                  "
+                >
+                  <div id="calTotalHour1620"></div>
+                </th>
+              </tr>
+              <tr>
+                <th style="text-align: center; vertical-align: middle">
+                  20-24
+                </th>
+                <th
+                  style="
+                    color: green;
+                    text-align: center;
+                    vertical-align: middle;
+                  "
+                >
+                  <div id="totalHour2024"></div>
+                </th>
+                <th style="text-align: center; vertical-align: middle">1.5</th>
+                <th
+                  style="
+                    color: green;
+                    text-align: center;
+                    vertical-align: middle;
+                  "
+                >
+                  <div id="calTotalHour2024"></div>
+                </th>
+              </tr>
+              <tr>
+                <th style="text-align: center; vertical-align: middle">
+                  00-03
+                </th>
+                <th
+                  style="
+                    color: green;
+                    text-align: center;
+                    vertical-align: middle;
+                  "
+                >
+                  <div id="totalHour2403"></div>
+                </th>
+                <th style="text-align: center; vertical-align: middle">2.5</th>
+                <th
+                  style="
+                    color: green;
+                    text-align: center;
+                    vertical-align: middle;
+                  "
+                >
+                  <div id="calTotalHour2403"></div>
+                </th>
+              </tr>
+              <tr>
+                <th style="text-align: center; vertical-align: middle">
+                  03-08
+                </th>
+                <th
+                  style="
+                    color: green;
+                    text-align: center;
+                    vertical-align: middle;
+                  "
+                >
+                  <div id="totalHour0308"></div>
+                </th>
+                <th style="text-align: center; vertical-align: middle">2.5</th>
+                <th
+                  style="
+                    color: green;
+                    text-align: center;
+                    vertical-align: middle;
+                  "
+                >
+                  <div id="calTotalHour0308"></div>
+                </th>
+              </tr>
+              <tr>
+                <th style="text-align: center; vertical-align: middle">
+                  รวมชั่วโมงงาน
+                </th>
+                <th
+                  style="
+                    color: green;
+                    text-align: center;
+                    vertical-align: middle;
+                  "
+                >
+                  <div id="totalHour"></div>
+                </th>
+                <th style="text-align: center; vertical-align: middle">
+                  รวมชั่วโมง(ใหม่)
+                </th>
+                <th
+                  style="
+                    color: green;
+                    text-align: center;
+                    vertical-align: middle;
+                  "
+                >
+                  <div id="calTotalHour"></div>
+                </th>
+              </tr>
+              <tr>
+                <th style="text-align: center; vertical-align: middle">
+                  แปลผล
+                </th>
+                <th
+                  colspan="3"
+                  style="text-align: center; vertical-align: middle"
+                >
+                  <div id="textResult"></div>
+                </th>
+              </tr>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </body>
@@ -229,6 +336,15 @@
     src="https://MomentJS.com/downloads/moment.js"
   ></script>
   <script>
+    document.getElementById("loader").style.display = "block";
+    document.getElementById("mainpage").style.display = "none";
+    setTimeout(() => {
+      document.getElementById("loader").style.display = "none";
+      document.getElementById("mainpage").style.display = "block";
+    }, 1000);
+    let timePickStart = (document.getElementById("start").value = "16:00");
+    let timePickEnd = (document.getElementById("end").value = "00:00");
+
     let totalHour = 0;
     let totalHour1620 = 0;
     let totalHour2024 = 0;
@@ -236,9 +352,18 @@
     let totalHour0308 = 0;
 
     function Add() {
+      document.getElementById("loader").style.display = "block";
+      document.getElementById("mainpage").style.display = "none";
+      setTimeout(() => {
+        document.getElementById("loader").style.display = "none";
+        document.getElementById("mainpage").style.display = "block";
+      }, 1500);
+
       //Show time
       var showtime = document.getElementById("showtime");
       showtime.style.display = "block";
+      var tableTime = document.getElementById("tableTime");
+      tableTime.style.display = "block";
       //Show time
       let start = document.getElementById("start").value;
       let end = document.getElementById("end").value;
@@ -382,8 +507,8 @@
       } else {
         return alert("กรอกเวลาให้ครบ");
       }
-      document.getElementById("start").value = "";
-      document.getElementById("end").value = "";
+      document.getElementById("start").value = "16:00";
+      document.getElementById("end").value = "00:00";
     }
     function getTime(num) {
       let workHourCon = Math.abs(num);
